@@ -3,12 +3,16 @@ import json
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 
+from django_filters.rest_framework import DjangoFilterBackend
+
 from backend.settings import BASE_DIR
 from .models import Movie, Actor, Genre, Review, Rating
 from .permissions import IsStaffOrSafeMethodsPermission, IsOwnerOrReadAndCreateOnly
 from .serializers import MovieSerializer, ActorSerializer, GenreSerializer, ReviewSerializer, RatingSerializer, \
     StatisticsSerializer
 from .mixins import EnablePATCHMethodMixin
+from .paginations import StandardPagination
+from .filters import ActorFilter, MovieFilter
 
 
 class MovieViewSet(EnablePATCHMethodMixin, viewsets.ModelViewSet):
@@ -18,6 +22,9 @@ class MovieViewSet(EnablePATCHMethodMixin, viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     permission_classes = [IsStaffOrSafeMethodsPermission, permissions.IsAuthenticatedOrReadOnly]
+    pagination_class = StandardPagination
+    filter_backends = (DjangoFilterBackend, )
+    filterset_class = MovieFilter
 
 
 class ActorViewSet(EnablePATCHMethodMixin, viewsets.ModelViewSet):
@@ -27,6 +34,9 @@ class ActorViewSet(EnablePATCHMethodMixin, viewsets.ModelViewSet):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
     permission_classes = [IsStaffOrSafeMethodsPermission, permissions.IsAuthenticatedOrReadOnly]
+    pagination_class = StandardPagination
+    filter_backends = (DjangoFilterBackend, )
+    filterset_class = ActorFilter
 
 
 class GenreViewSet(EnablePATCHMethodMixin, viewsets.ModelViewSet):
@@ -36,6 +46,7 @@ class GenreViewSet(EnablePATCHMethodMixin, viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
     permission_classes = [IsStaffOrSafeMethodsPermission]
+    pagination_class = StandardPagination
 
 
 class ReviewViewSet(EnablePATCHMethodMixin, viewsets.ModelViewSet):
@@ -45,6 +56,7 @@ class ReviewViewSet(EnablePATCHMethodMixin, viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [IsOwnerOrReadAndCreateOnly, permissions.IsAuthenticatedOrReadOnly]
+    pagination_class = StandardPagination
 
 
 class RatingViewSet(EnablePATCHMethodMixin, viewsets.ModelViewSet):
@@ -54,6 +66,7 @@ class RatingViewSet(EnablePATCHMethodMixin, viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
     permission_classes = [IsOwnerOrReadAndCreateOnly, permissions.IsAuthenticatedOrReadOnly]
+    pagination_class = StandardPagination
 
 
 class StatisticsView(viewsets.ViewSet):
