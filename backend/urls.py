@@ -13,8 +13,8 @@ schema_view = get_schema_view(
         title="Movie API",
         default_version='v1',
         description="REST API for movies. Visit the <a href='http://127.0.0.1:8000/api/'>API gateaway</a>.\n"
-        "<font size='+1'>Names, titles, descriptions are only in Ukrainian, so queries may not be displayed as you would like.</font>"
-        "<strong>(Please note this)</strong>.",
+        "Names, titles, descriptions are only in Ukrainian, so queries may not be displayed as you would like."
+        "<strong>(Please note this)</strong>.\nUse the <code>url</code> instead.",
         terms_of_service="https://www.google.com/policies/terms/",
         license=openapi.License(name="BSD License"),
     ),
